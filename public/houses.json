@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "address": "12 Valley of Kings, Milano",
+    "country": "Italy",
+    "description": "A super detached Victorian property on one of the greatest places.",
+    "price": 900000,
+    "photo": "277667"
+  },
+  {
+    "id": 2,
+    "address": "89 Road of Forks, Bern",
+    "country": "Holland",
+    "description": "This house has been designed and build to an impeccable standard offering luxurious and elegant living. The accommodation is arranged over four floors comprising a large entrance hall, living room with tall sash windows, dining room, study and WC on the ground floor." ,
+    "price": 500000,
+    "photo":"462358"
+  },
+   {
+    "id": 3,
+    "address": "50 Humlagatan, Solna",
+    "country": "Sweden",
+    "description": "This impressive family home" ,
+    "price": 800000,
+    "photo":"164558"
+  },
+   {
+    "id": 4,
+    "address": "89 Road of Forks, Bern",
+    "country": "Switzerland",
+    "description": "This family house is very well designed by a famous designer." ,
+    "price": 200000,
+    "photo":"259600"
+  },
+   {
+    "id": 5,
+    "address": "89 Steven Road, NY",
+    "country": "USA",
+    "description": "This impressive family home" ,
+    "price": 700000,
+    "photo":"534182"
+  },
+  {
+    "id": 6,
+    "address": "17 Lineagatan, Solna",
+    "country": "Sweden",
+    "description": "This fantastic family home is designed for a 8 persons or more and specialy for kids who like swimming cause there is a swimming pool." ,
+    "price": 76000,
+    "photo":"455879"
+  }
+]
