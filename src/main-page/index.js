@@ -12,7 +12,11 @@ function App() {
 
     useEffect(() => {
         const fetchHouses = async () => {
-            const rsp = await fetch("/houses.json");
+            // ---- ÄNDRING HÄR ----
+            // Hämta data från din nya server istället för den lokala filen
+            const rsp = await fetch("http://localhost:4000/api/houses");
+            // --------------------
+
             const houses = await rsp.json();
             setAllHouses(houses);
         };
@@ -26,16 +30,13 @@ function App() {
         }
     }, [allHouses]);
 
-    // NY FUNKTION för att hantera bud
     const addBid = (houseId, bid) => {
         const updatedHouses = allHouses.map((h) => {
-            if (h.id !== houseId) return h; // Om det inte är rätt hus, returnera det oförändrat
-
-            // Om det är rätt hus, lägg till det nya budet
+            if (h.id !== houseId) return h;
             const newBids = h.bids ? [...h.bids, bid] : [bid];
             return { ...h, bids: newBids };
         });
-        setAllHouses(updatedHouses); // Uppdatera state med den nya listan
+        setAllHouses(updatedHouses);
     };
 
     return (
@@ -44,7 +45,6 @@ function App() {
                 <Header />
                 <Housefilter allHouses={allHouses} />
                 <Routes>
-                    {/* Skicka med addBid-funktionen som en prop här */}
                     <Route path="/house/:id" element={<HouseFromQuery allHouses={allHouses} addBid={addBid} />} />
                     <Route path="/searchresults/:country" element={<SearchResults allHouses={allHouses} />} />
                     <Route path="/" element={<FeaturedHouse house={featuredHouse} />} />
