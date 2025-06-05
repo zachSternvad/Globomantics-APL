@@ -49,10 +49,10 @@ npm install
 # Starta servern (den körs på http://localhost:4000)
 node server.js
 ```
-3. Konfigurera & starta Frontend-appen
+**3. Konfigurera & starta Frontend-appen**
 Öppna en ny, andra terminal och gå till projektets rotmapp.
-(Låt den första terminalen med servern vara igång)
-```Bash
+*(Låt den första terminalen med servern vara igång)*
+```bash
 
 # Gå till projektets rotmapp (om du inte redan är där)
 cd <projekt-mapp>
@@ -63,5 +63,5 @@ npm install
 # Starta frontend-appen (den körs på http://localhost:3000)
 npm start
 ```
-4. Öppna i webbläsaren
+**4. Öppna i webbläsaren**
 Öppna http://localhost:3000 i din webbläsare för att se applikationen. Frontend-appen kommer automatiskt att kommunicera med din backend-server.
