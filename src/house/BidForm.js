@@ -1,11 +1,10 @@
-// Fil: src/components/house/BidForm.js
-
 import { useState } from "react";
 
-const BidForm = ({ house }) => {
+// Ta emot addBid som en prop, och funktionen setBidFormShown för att kunna dölja formuläret
+const BidForm = ({ house, addBid, setBidFormShown }) => {
     const [bidInfo, setBidInfo] = useState({
         bidder: "",
-        amount: "",
+        amount: 0, // Använd 0 som startvärde för ett nummer
     });
 
     const onChange = (e) => {
@@ -14,13 +13,16 @@ const BidForm = ({ house }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(`Bid submitted for house ${house.id}:`, bidInfo);
-        // Här kan du senare lägga till logik för att spara budet
-        alert("Thanks for your bid!"); // Enkel feedback till användaren
+        const bid = {
+            bidder: bidInfo.bidder,
+            amount: parseInt(bidInfo.amount, 10) // Gör om till ett tal
+        };
+        addBid(house.id, bid); // Anropa funktionen från App-komponenten
+        setBidFormShown(false); // Dölj formuläret efter att budet är lagt
     };
 
     return (
-        <form className="mt-3 p-3 border rounded">
+        <form className="mt-3 p-3 border rounded" onSubmit={onSubmit}>
             <div className="mb-3">
                 <label htmlFor="bidder" className="form-label">Name</label>
                 <input
@@ -30,6 +32,7 @@ const BidForm = ({ house }) => {
                     placeholder="Your Name"
                     value={bidInfo.bidder}
                     onChange={onChange}
+                    required
                 />
             </div>
             <div className="mb-3">
@@ -41,13 +44,13 @@ const BidForm = ({ house }) => {
                     placeholder="Your Bid Amount"
                     value={bidInfo.amount}
                     onChange={onChange}
+                    required
                 />
             </div>
             <button
                 type="submit"
                 className="btn btn-success"
                 disabled={!bidInfo.bidder || !bidInfo.amount}
-                onClick={onSubmit}
             >
                 Submit Bid
             </button>
