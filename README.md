@@ -35,28 +35,28 @@ För att köra projektet på din egen dator, följ dessa steg:
 ```bash
 git clone <URL_till_ditt_repository>
 cd <projekt-mapp>
-
+```
 2. Installera beroenden
-Bash
+```Bash
 
 npm install
-
+```
 3. Kör utvecklingsservern
 Detta startar appen i utvecklingsläge.
-Bash
+```Bash
 
 npm start
-
+```
 Öppna http://localhost:3000 i din webbläsare för att se applikationen. Sidan laddas om automatiskt när du gör ändringar i koden.
 
 4. Kör tester (valfritt)
-Bash
+```Bash
 
 npm test
-
+```
 5. Skapa en produktions-build (valfritt)
 Detta bygger och optimerar appen för produktion i build-mappen.
-Bash
+```Bash
 
 npm run build
 ```
