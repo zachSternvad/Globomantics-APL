@@ -20,6 +20,7 @@ Detta APL-projekt är en webbapplikation för den fiktiva mäklarfirman Globoman
 ## Teknologier & Verktyg
 
 * **Frontend:** React, React Router
+* **Backend:** Node.js, Express
 * **Styling:** Bootstrap
 * **Språk:** JavaScript, HTML, CSS
 * **Byggverktyg:** Create React App
@@ -29,34 +30,38 @@ Detta APL-projekt är en webbapplikation för den fiktiva mäklarfirman Globoman
 
 ## Installation & Användning Lokalt
 
-För att köra projektet på din egen dator, följ dessa steg:
+Projektet består av två delar: en frontend (React-appen) och en backend (Node.js-servern). Båda måste vara igång samtidigt för att applikationen ska fungera fullt ut.
 
 **1. Klona projektet**
 ```bash
 git clone <URL_till_ditt_repository>
 cd <projekt-mapp>
 ```
-2. Installera beroenden
-```Bash
+**2. Konfigurera & starta Backend-servern**
+*(Denna terminal ska du låta vara igång)*
+```bash
+# Gå in i server-mappen
+cd server
 
+# Installera serverns beroenden
 npm install
+
+# Starta servern (den körs på http://localhost:4000)
+node server.js
 ```
-3. Kör utvecklingsservern
-Detta startar appen i utvecklingsläge.
+3. Konfigurera & starta Frontend-appen
+Öppna en ny, andra terminal och gå till projektets rotmapp.
+(Låt den första terminalen med servern vara igång)
 ```Bash
 
+# Gå till projektets rotmapp (om du inte redan är där)
+cd <projekt-mapp>
+
+# Installera frontend-appens beroenden
+npm install
+
+# Starta frontend-appen (den körs på http://localhost:3000)
 npm start
 ```
-Öppna http://localhost:3000 i din webbläsare för att se applikationen. Sidan laddas om automatiskt när du gör ändringar i koden.
-
-4. Kör tester (valfritt)
-```Bash
-
-npm test
-```
-5. Skapa en produktions-build (valfritt)
-Detta bygger och optimerar appen för produktion i build-mappen.
-```Bash
-
-npm run build
-```
+4. Öppna i webbläsaren
+Öppna http://localhost:3000 i din webbläsare för att se applikationen. Frontend-appen kommer automatiskt att kommunicera med din backend-server.

@@ -1,22 +1,21 @@
 const express = require("express");
 const cors = require("cors");
-const fs = require("fs"); // Node.js inbyggda modul för att hantera filsystemet
-const path = require("path"); // Node.js inbyggda modul för att hantera sökvägar
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
-const port = 4000; // Vi väljer en port som inte krockar med React (som kör på 3000)
+const port = 4000;
 
-// Middleware
-app.use(cors()); // Tillåt anrop från andra domäner/portar (din React-app)
-app.use(express.json()); // Tillåt servern att ta emot och tolka JSON i request body
+app.use(cors());
+app.use(express.json());
+
+// Sökvägen till din datafil
+const housesPath = path.join(__dirname, '../public/houses.json');
 
 // --- API Endpoints ---
 
-// En endpoint för att hämta alla hus
+// Endpoint för att hämta alla hus (samma som förut)
 app.get("/api/houses", (req, res) => {
-    // Skapa en korrekt sökväg till houses.json från serverns plats
-    const housesPath = path.join(__dirname, '../public/houses.json');
-    
     fs.readFile(housesPath, "utf8", (err, data) => {
         if (err) {
             console.error(err);
@@ -26,24 +25,46 @@ app.get("/api/houses", (req, res) => {
     });
 });
 
-// En endpoint för att ta emot ett nytt bud (vi implementerar bara mottagandet nu)
+// ---- UPPDATERAD ENDPOINT ----
+// Endpoint för att ta emot och SPARA ett nytt bud
 app.post("/api/houses/:id/bids", (req, res) => {
-    const houseId = req.params.id;
-    const bidData = req.body;
+    const houseId = parseInt(req.params.id, 10);
+    const newBid = req.body;
 
-    console.log(`Received a new bid for house ${houseId}:`, bidData);
-    
-    // Svarar klienten för att bekräfta mottagandet
-    // Senare kommer vi att spara detta bud till filen här.
-    res.status(201).json({ 
-        message: "Bid received successfully", 
-        houseId: houseId, 
-        bid: bidData 
+    // 1. Läs den nuvarande datan från filen
+    fs.readFile(housesPath, "utf8", (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("An error occurred while reading the houses data.");
+        }
+
+        const houses = JSON.parse(data);
+
+        // 2. Hitta rätt hus och lägg till det nya budet
+        const updatedHouses = houses.map(h => {
+            if (h.id === houseId) {
+                const newBids = h.bids ? [...h.bids, newBid] : [newBid];
+                return { ...h, bids: newBids };
+            }
+            return h;
+        });
+
+        // 3. Skriv tillbaka hela den uppdaterade listan till filen
+        fs.writeFile(housesPath, JSON.stringify(updatedHouses, null, 2), (err) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("An error occurred while saving the new bid.");
+            }
+
+            // 4. Skicka ett framgångsmeddelande tillbaka
+            res.status(201).json({
+                message: "Bid saved successfully!",
+                bid: newBid
+            });
+        });
     });
 });
 
-
-// Starta servern och lyssna på den valda porten
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });

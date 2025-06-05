@@ -12,11 +12,7 @@ function App() {
 
     useEffect(() => {
         const fetchHouses = async () => {
-            // ---- ÄNDRING HÄR ----
-            // Hämta data från din nya server istället för den lokala filen
             const rsp = await fetch("http://localhost:4000/api/houses");
-            // --------------------
-
             const houses = await rsp.json();
             setAllHouses(houses);
         };
@@ -30,7 +26,20 @@ function App() {
         }
     }, [allHouses]);
 
-    const addBid = (houseId, bid) => {
+    // ---- UPPDATERAD FUNKTION ----
+    const addBid = async (houseId, bid) => {
+        // Skicka det nya budet till servern
+        const response = await fetch(`http://localhost:4000/api/houses/${houseId}/bids`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bid),
+        });
+        const result = await response.json();
+        console.log(result.message);
+
+        // Efter att budet har skickats, uppdatera state lokalt för att visa det direkt
         const updatedHouses = allHouses.map((h) => {
             if (h.id !== houseId) return h;
             const newBids = h.bids ? [...h.bids, bid] : [bid];
