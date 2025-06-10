@@ -5,6 +5,7 @@ Detta APL-projekt är en webbapplikation för den fiktiva mäklarfirman Globoman
 ## Live Demo
 
 **https://globomanticsapl.netlify.app/**
+(tar en liten stund för render backend att starta ibland)
 ---
 
 ## Funktioner
