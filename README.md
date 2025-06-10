@@ -35,8 +35,8 @@ Projektet består av två delar: en frontend (React-appen) och en backend (Node.
 
 **1. Klona projektet**
 ```bash
-git clone <URL_till_ditt_repository>
-cd <projekt-mapp>
+git clone https://github.com/zachSternvad/Globomantics-APL.git
+cd Globomantics-APL
 ```
 **2. Konfigurera & starta Backend-servern**
 *(Denna terminal ska du låta vara igång)*
@@ -56,7 +56,7 @@ node server.js
 ```bash
 
 # Gå till projektets rotmapp (om du inte redan är där)
-cd <projekt-mapp>
+cd Globomantics-APL
 
 # Installera frontend-appens beroenden
 npm install
