@@ -1,4 +1,3 @@
-// Importerar React-funktioner och alla komponenter som behövs.
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './main-page.css';
@@ -11,20 +10,26 @@ import HouseList from "../components/house-list/HouseList";
 
 // Detta är min huvudkomponent för hela appen.
 function App() {
+    // Jag definierar bas-URL:en för mitt API.
+    // process.env.REACT_APP_API_URL kommer att användas när appen är driftsatt.
+    // Om den variabeln inte finns, används "http://localhost:4000" för lokal utveckling.
+    const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
+
     const [allHouses, setAllHouses] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
 
     useEffect(() => {
         const fetchHouses = async () => {
-            const rsp = await fetch("http://localhost:4000/api/houses");
+            // Jag använder nu min API_BASE_URL-variabel för att bygga den fullständiga URL:en.
+            const rsp = await fetch(`${API_BASE_URL}/api/houses`);
             const houses = await rsp.json();
             setAllHouses(houses);
         };
         fetchHouses();
-    }, []);
+    }, [API_BASE_URL]); // Jag lägger till API_BASE_URL som en dependency.
     
     const addBid = async (houseId, bid) => {
-        await fetch(`http://localhost:4000/api/houses/${houseId}/bids`, {
+        await fetch(`${API_BASE_URL}/api/houses/${houseId}/bids`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bid),
@@ -38,7 +43,7 @@ function App() {
     };
 
     const handleAddHouse = async (newHouse) => {
-        const response = await fetch("http://localhost:4000/api/houses", {
+        const response = await fetch(`${API_BASE_URL}/api/houses`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newHouse),
@@ -48,7 +53,7 @@ function App() {
     };
 
     const handleDeleteHouse = async (houseId) => {
-        const response = await fetch(`http://localhost:4000/api/houses/${houseId}`, {
+        const response = await fetch(`${API_BASE_URL}/api/houses/${houseId}`, {
             method: 'DELETE'
         });
         if (response.ok) {
@@ -58,18 +63,13 @@ function App() {
         }
     };
 
-    // Ny funktion för att ta bort ett specifikt bud.
     const handleDeleteBid = async (houseId, bidIndex) => {
-        // Skickar ett DELETE-anrop till den nya endpointen.
-        const response = await fetch(`http://localhost:4000/api/houses/${houseId}/bids/${bidIndex}`, {
+        const response = await fetch(`${API_BASE_URL}/api/houses/${houseId}/bids/${bidIndex}`, {
             method: 'DELETE'
         });
-
         if (response.ok) {
-            // Om det lyckas, uppdatera state lokalt för en snabb UI-ändring.
             const updatedHouses = allHouses.map((h) => {
                 if (h.id === houseId) {
-                    // Skapar en ny lista med bud utan det borttagna budet.
                     const newBids = h.bids.filter((bid, index) => index !== bidIndex);
                     return { ...h, bids: newBids };
                 }
@@ -81,7 +81,6 @@ function App() {
         }
     };
 
-    // Renderar appen.
     return (
         <Router>
             <div className="container">
@@ -98,7 +97,6 @@ function App() {
                 
                 <Routes>
                     <Route path="/" element={<HouseList allHouses={allHouses} deleteHouse={handleDeleteHouse} />} />
-                    {/* Jag skickar med den nya delete-bid-funktionen som en prop. */}
                     <Route path="/house/:id" element={<HouseFromQuery allHouses={allHouses} addBid={addBid} deleteBid={handleDeleteBid} />} />
                     <Route path="/searchresults/:country" element={<SearchResults allHouses={allHouses} deleteHouse={handleDeleteHouse} />} />
                 </Routes>
