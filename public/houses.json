@@ -62,5 +62,13 @@
     "description": "This fantastic family home is designed for a 8 persons or more and specialy for kids who like swimming cause there is a swimming pool.",
     "price": 76000,
     "photo": "455879"
+  },
+  {
+    "address": "Test hus",
+    "country": "Testus Landius",
+    "description": "Ett hus i ett test scenario",
+    "price": 690,
+    "photo": "149297",
+    "id": 7
   }
 ]

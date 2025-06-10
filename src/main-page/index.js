@@ -6,11 +6,11 @@ import FeaturedHouse from "./featured-house.js";
 import SearchResults from "../search-results/index.js";
 import Housefilter from "./house-filter.js";
 import HouseFromQuery from "../house/HouseFromQuery.js";
-import AddHouseForm from "../add-house/AddHouseForm"; // <-- 1. Importera det nya formuläret
+import AddHouseForm from "../add-house/AddHouseForm";
 
 function App() {
     const [allHouses, setAllHouses] = useState([]);
-    const [showAddForm, setShowAddForm] = useState(false); // <-- 2. Ny state för att visa/dölja formuläret
+    const [showAddForm, setShowAddForm] = useState(false);
 
     // ... (useEffect och useMemo är samma som förut) ...
     useEffect(() => {
@@ -34,14 +34,20 @@ function App() {
         // ... (ingen ändring här) ...
     };
 
-    // 3. NY FUNKTION för att hantera tillägg av hus
-    const handleAddHouse = (newHouse) => {
-        // För nu, lägg bara till det i det lokala state:t.
-        // Senare kopplar vi detta till backend.
-        setAllHouses([...allHouses, { ...newHouse, id: allHouses.length + 1 + Math.random() }]);
-        console.log("Nytt hus tillagt (lokalt):", newHouse);
-    };
+    // ---- UPPDATERAD FUNKTION ----
+    const handleAddHouse = async (newHouse) => {
+        const response = await fetch("http://localhost:4000/api/houses", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newHouse),
+        });
+        const savedHouse = await response.json(); // Ta emot det sparade huset med sitt nya ID
 
+        // Uppdatera state med det nya huset från servern
+        setAllHouses([...allHouses, savedHouse]);
+    };
 
     return (
         <Router>
@@ -49,14 +55,12 @@ function App() {
                 <Header />
                 <Housefilter allHouses={allHouses} />
 
-                {/* 4. Knapp för att visa formuläret */}
                 <div className="my-3 text-center">
                     <button className="btn btn-success" onClick={() => setShowAddForm(!showAddForm)}>
                         {showAddForm ? "Cancel" : "Add House"}
                     </button>
                 </div>
 
-                {/* 5. Visa formuläret villkorligt */}
                 {showAddForm && <AddHouseForm onAddHouse={handleAddHouse} onDone={() => setShowAddForm(false)} />}
                 
                 <Routes>
