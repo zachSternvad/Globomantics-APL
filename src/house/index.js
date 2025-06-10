@@ -4,22 +4,30 @@ import emailIcon from "./Email.png";
 import Inquiry from "./Inquiry";
 import BidForm from "./BidForm";
 
-// Ta emot addBid-funktionen
+// Ta emot addBid-funktionen från föräldern
 const House = ({ house, addBid }) => {
     const [inquiryShown, setInquiryShown] = useState(false);
     const [bidFormShown, setBidFormShown] = useState(false);
+    const [successMessage, setSuccessMessage] = useState(""); // <-- Ny state för meddelandet
 
     const inquiryClick = () => {
         setInquiryShown(!inquiryShown);
     };
 
-    const bidClick = () => {
-        setBidFormShown(!bidFormShown);
+    // Ny funktion som hanterar hela bud-processen
+    const handleBidSubmit = async (bid) => {
+        await addBid(house.id, bid); // Anropa funktionen som pratar med backend
+        setBidFormShown(false); // Dölj formuläret
+        setSuccessMessage("Thanks for your bid!"); // Visa framgångsmeddelande
+        
+        // Dölj meddelandet igen efter 3 sekunder
+        setTimeout(() => {
+            setSuccessMessage("");
+        }, 3000);
     };
 
     return (
         <div>
-            {/* ... (samma kod som förut för land, adress, bild, pris etc.) ... */}
             <div className="row mt-2">
                 <h5 className="col-md-12">{house.country}</h5>
             </div>
@@ -38,11 +46,12 @@ const House = ({ house, addBid }) => {
                 </div>
             </div>
 
-            {/* Uppdaterad sektion för budgivning */}
             <div className="row mt-3">
                 <div className="col-md-12">
                     <h4>Bids</h4>
-                    {/* NY KOD: Visa listan med bud */}
+                    {/* Visa framgångsmeddelandet om det finns */}
+                    {successMessage && <div className="alert alert-success">{successMessage}</div>}
+                    
                     {house.bids && house.bids.length > 0 ? (
                         <table className="table table-sm">
                             <thead>
@@ -64,11 +73,12 @@ const House = ({ house, addBid }) => {
                         <p>No bids yet.</p>
                     )}
 
-                    <button className="btn btn-primary" onClick={bidClick}>
-                        {bidFormShown ? "Cancel" : "Add Bid"}
-                    </button>
-                    {/* Skicka med funktionerna till BidForm */}
-                    {bidFormShown && <BidForm house={house} addBid={addBid} setBidFormShown={setBidFormShown} />}
+                    {!bidFormShown && (
+                        <button className="btn btn-primary" onClick={() => setBidFormShown(true)}>
+                            Add Bid
+                        </button>
+                    )}
+                    {bidFormShown && <BidForm onBidSubmit={handleBidSubmit} />}
                 </div>
             </div>
         </div>

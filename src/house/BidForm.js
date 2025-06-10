@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-// Ta emot addBid som en prop, och funktionen setBidFormShown för att kunna dölja formuläret
-const BidForm = ({ house, addBid, setBidFormShown }) => {
+// Ta bara emot onBidSubmit-funktionen
+const BidForm = ({ onBidSubmit }) => {
     const [bidInfo, setBidInfo] = useState({
         bidder: "",
-        amount: 0, // Använd 0 som startvärde för ett nummer
+        amount: 0,
     });
 
     const onChange = (e) => {
@@ -15,37 +15,21 @@ const BidForm = ({ house, addBid, setBidFormShown }) => {
         e.preventDefault();
         const bid = {
             bidder: bidInfo.bidder,
-            amount: parseInt(bidInfo.amount, 10) // Gör om till ett tal
+            amount: parseInt(bidInfo.amount, 10)
         };
-        addBid(house.id, bid); // Anropa funktionen från App-komponenten
-        setBidFormShown(false); // Dölj formuläret efter att budet är lagt
+        onBidSubmit(bid); // Anropa funktionen från föräldern (House)
     };
 
     return (
         <form className="mt-3 p-3 border rounded" onSubmit={onSubmit}>
+            {/* ... (samma formulär-JSX som förut) ... */}
             <div className="mb-3">
                 <label htmlFor="bidder" className="form-label">Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="bidder"
-                    placeholder="Your Name"
-                    value={bidInfo.bidder}
-                    onChange={onChange}
-                    required
-                />
+                <input id="bidder" type="text" className="form-control" value={bidInfo.bidder} onChange={onChange} required />
             </div>
             <div className="mb-3">
                 <label htmlFor="amount" className="form-label">Amount ($)</label>
-                <input
-                    type="number"
-                    className="form-control"
-                    id="amount"
-                    placeholder="Your Bid Amount"
-                    value={bidInfo.amount}
-                    onChange={onChange}
-                    required
-                />
+                <input id="amount" type="number" className="form-control" value={bidInfo.amount} onChange={onChange} required />
             </div>
             <button
                 type="submit"
