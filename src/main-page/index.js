@@ -9,10 +9,11 @@ import HouseFromQuery from "../house/HouseFromQuery.js";
 import AddHouseForm from "../add-house/AddHouseForm";
 
 function App() {
+    // Jag använder useState för att hålla reda på alla hus och om "Add"-formuläret ska visas.
     const [allHouses, setAllHouses] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
 
-    // ... (useEffect och useMemo är samma som förut) ...
+    // Jag använder useEffect för att hämta all data från min backend-server när komponenten laddas för första gången.
     useEffect(() => {
         const fetchHouses = async () => {
             const rsp = await fetch("http://localhost:4000/api/houses");
@@ -22,6 +23,7 @@ function App() {
         fetchHouses();
     }, []);
 
+    // Jag använder useMemo för att slumpa fram ett "featured house" utan att behöva göra om beräkningen vid varje rendering.
     const featuredHouse = useMemo(() => {
         if (allHouses.length) {
             const randomIndex = Math.floor(Math.random() * allHouses.length);
@@ -29,12 +31,27 @@ function App() {
         }
     }, [allHouses]);
     
-    // addBid-funktionen är samma som förut
+    // Detta är funktionen som hanterar när ett nytt bud läggs till.
     const addBid = async (houseId, bid) => {
-        // ... (ingen ändring här) ...
+        const response = await fetch(`http://localhost:4000/api/houses/${houseId}/bids`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bid),
+        });
+        const result = await response.json();
+        console.log(result.message);
+
+        const updatedHouses = allHouses.map((h) => {
+            if (h.id !== houseId) return h;
+            const newBids = h.bids ? [...h.bids, bid] : [bid];
+            return { ...h, bids: newBids };
+        });
+        setAllHouses(updatedHouses);
     };
 
-    // ---- UPPDATERAD FUNKTION ----
+    // Detta är funktionen som hanterar när ett nytt hus läggs till.
     const handleAddHouse = async (newHouse) => {
         const response = await fetch("http://localhost:4000/api/houses", {
             method: 'POST',
@@ -43,12 +60,31 @@ function App() {
             },
             body: JSON.stringify(newHouse),
         });
-        const savedHouse = await response.json(); // Ta emot det sparade huset med sitt nya ID
-
-        // Uppdatera state med det nya huset från servern
+        const savedHouse = await response.json();
         setAllHouses([...allHouses, savedHouse]);
     };
 
+    // Jag skapar en ny funktion, handleDeleteHouse, som ska hantera borttagningen av ett hus.
+    const handleDeleteHouse = async (houseId) => {
+        // Jag använder fetch för att skicka ett DELETE-anrop till min backend.
+        // Jag skickar med husets ID i URL:en så servern vet vilket hus som ska tas bort.
+        const response = await fetch(`http://localhost:4000/api/houses/${houseId}`, {
+            method: 'DELETE'
+        });
+
+        // Om anropet lyckades (response.ok är true), uppdaterar jag mitt lokala state 'allHouses'.
+        if (response.ok) {
+            // Jag använder filter för att skapa en ny lista utan det hus som har det ID jag precis tagit bort.
+            // Detta gör att listan på sidan uppdateras direkt utan en omladdning.
+            setAllHouses(allHouses.filter(h => h.id !== houseId));
+        } else {
+            // Om något går fel loggar jag ett felmeddelande.
+            console.error("Failed to delete house.");
+        }
+    };
+
+
+    // Här renderar jag hela min applikation, inklusive Router och alla Routes.
     return (
         <Router>
             <div className="container">
@@ -65,7 +101,10 @@ function App() {
                 
                 <Routes>
                     <Route path="/house/:id" element={<HouseFromQuery allHouses={allHouses} addBid={addBid} />} />
-                    <Route path="/searchresults/:country" element={<SearchResults allHouses={allHouses} />} />
+                    
+                    {/* Här, i min Route för sökresultaten, skickar jag med den nya handleDeleteHouse-funktionen som en prop. */}
+                    <Route path="/searchresults/:country" element={<SearchResults allHouses={allHouses} deleteHouse={handleDeleteHouse} />} />
+                    
                     <Route path="/" element={<FeaturedHouse house={featuredHouse} />} />
                 </Routes>
             </div>
