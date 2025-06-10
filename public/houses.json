@@ -14,6 +14,10 @@
       {
         "bidder": "Test2",
         "amount": 333
+      },
+      {
+        "bidder": "Test3",
+        "amount": 33
       }
     ]
   },
@@ -23,7 +27,13 @@
     "country": "Holland",
     "description": "This house has been designed and build to an impeccable standard offering luxurious and elegant living. The accommodation is arranged over four floors comprising a large entrance hall, living room with tall sash windows, dining room, study and WC on the ground floor.",
     "price": 500000,
-    "photo": "462358"
+    "photo": "462358",
+    "bids": [
+      {
+        "bidder": "test",
+        "amount": 3
+      }
+    ]
   },
   {
     "id": 3,
@@ -36,6 +46,10 @@
       {
         "bidder": "test3",
         "amount": 23
+      },
+      {
+        "bidder": "test4",
+        "amount": 31
       }
     ]
   },

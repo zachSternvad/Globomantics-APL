@@ -1,7 +1,9 @@
+// Importerar useState-hooken.
 import { useState } from "react";
 
-// Ta emot funktioner för att hantera submit och för att stänga formuläret
+// Detta är formuläret för att lägga till ett nytt hus.
 const AddHouseForm = ({ onAddHouse, onDone }) => {
+    // Ett state-objekt för att hålla all information från formuläret.
     const [houseInfo, setHouseInfo] = useState({
         address: "",
         country: "",
@@ -10,22 +12,28 @@ const AddHouseForm = ({ onAddHouse, onDone }) => {
         photo: "",
     });
 
+    // En funktion som uppdaterar state när användaren skriver i ett fält.
     const onChange = (e) => {
         setHouseInfo({ ...houseInfo, [e.target.id]: e.target.value });
     };
 
+    // Funktion som körs när formuläret skickas.
     const onSubmit = (e) => {
+        // Förhindrar att sidan laddas om.
         e.preventDefault();
-        // Generera ett slumpmässigt foto-ID, då vi inte laddar upp bilder
+        // Skapar ett nytt hus-objekt och lägger till ett slumpmässigt foto-ID.
         const newHouse = {
             ...houseInfo,
             price: parseInt(houseInfo.price, 10),
             photo: Math.floor(100000 + Math.random() * 900000).toString()
         };
-        onAddHouse(newHouse); // Anropa funktionen från App-komponenten
-        onDone(); // Anropa funktionen för att stänga formuläret
+        // Anropar funktionen från App-komponenten för att spara huset.
+        onAddHouse(newHouse);
+        // Anropar funktionen från App för att stänga formuläret.
+        onDone();
     };
 
+    // Renderar själva formuläret.
     return (
         <div className="p-4 border rounded shadow-sm mt-4">
             <h4>Add New House</h4>

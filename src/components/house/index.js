@@ -1,31 +1,38 @@
+// Importerar CSS, hooks och andra komponenter.
 import "./house.css";
 import { useState } from "react";
 import emailIcon from "./Email.png";
 import Inquiry from "./Inquiry";
 import BidForm from "./BidForm";
 
-// Ta emot addBid-funktionen från föräldern
+// Detta är komponenten som visar detaljer för ett enskilt hus.
 const House = ({ house, addBid }) => {
+    // State för att visa/dölja formulären.
     const [inquiryShown, setInquiryShown] = useState(false);
     const [bidFormShown, setBidFormShown] = useState(false);
-    const [successMessage, setSuccessMessage] = useState(""); // <-- Ny state för meddelandet
+    // State för att visa ett framgångsmeddelande.
+    const [successMessage, setSuccessMessage] = useState("");
 
+    // Funktion för att visa/dölja kontaktformuläret.
     const inquiryClick = () => {
         setInquiryShown(!inquiryShown);
     };
 
-    // Ny funktion som hanterar hela bud-processen
+    // Funktion som körs när ett bud skickas in.
     const handleBidSubmit = async (bid) => {
-        await addBid(house.id, bid); // Anropa funktionen som pratar med backend
-        setBidFormShown(false); // Dölj formuläret
-        setSuccessMessage("Thanks for your bid!"); // Visa framgångsmeddelande
-        
-        // Dölj meddelandet igen efter 3 sekunder
+        // Anropar funktionen från App för att spara budet.
+        await addBid(house.id, bid);
+        // Döljer formuläret.
+        setBidFormShown(false);
+        // Visar ett meddelande.
+        setSuccessMessage("Thanks for your bid!");
+        // Tar bort meddelandet efter 3 sekunder.
         setTimeout(() => {
             setSuccessMessage("");
         }, 3000);
     };
 
+    // Renderar all information om huset.
     return (
         <div>
             <div className="row mt-2">
@@ -45,13 +52,14 @@ const House = ({ house, addBid }) => {
                     {inquiryShown && <Inquiry house={house} />}
                 </div>
             </div>
-
+            {/* Sektion för budgivning. */}
             <div className="row mt-3">
                 <div className="col-md-12">
                     <h4>Bids</h4>
-                    {/* Visa framgångsmeddelandet om det finns */}
+                    {/* Visar framgångsmeddelandet om det finns. */}
                     {successMessage && <div className="alert alert-success">{successMessage}</div>}
                     
+                    {/* Visar en tabell med alla bud som lagts. */}
                     {house.bids && house.bids.length > 0 ? (
                         <table className="table table-sm">
                             <thead>
@@ -72,12 +80,14 @@ const House = ({ house, addBid }) => {
                     ) : (
                         <p>No bids yet.</p>
                     )}
-
+                    
+                    {/* Visar bara "Add Bid"-knappen om formuläret är dolt. */}
                     {!bidFormShown && (
                         <button className="btn btn-primary" onClick={() => setBidFormShown(true)}>
                             Add Bid
                         </button>
                     )}
+                    {/* Visar bud-formuläret om bidFormShown är true. */}
                     {bidFormShown && <BidForm onBidSubmit={handleBidSubmit} />}
                 </div>
             </div>
