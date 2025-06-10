@@ -16,16 +16,20 @@ const BidForm = ({ onBidSubmit }) => {
 
     // Körs när formuläret skickas.
     const onSubmit = (e) => {
+        // Detta är den viktigaste raden. Den förhindrar att webbläsaren laddar om sidan.
         e.preventDefault();
+        
+        // Jag skapar ett nytt bud-objekt med datan från formuläret.
         const bid = {
             bidder: bidInfo.bidder,
             amount: parseInt(bidInfo.amount, 10)
         };
-        // Anropar funktionen från föräldrakomponenten (House) för att hantera budet.
+        // Jag anropar funktionen från föräldrakomponenten (House) för att hantera budet.
         onBidSubmit(bid);
     };
 
     // Renderar själva formuläret.
+    // Jag ser till att mitt form-element har en onSubmit-prop som pekar på min funktion.
     return (
         <form className="mt-3 p-3 border rounded" onSubmit={onSubmit}>
             <div className="mb-3">

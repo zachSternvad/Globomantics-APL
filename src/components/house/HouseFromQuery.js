@@ -1,16 +1,16 @@
-// Importerar useParams från react-router-dom och House-komponenten.
+// Importerar.
 import { useParams } from "react-router-dom";
 import House from "./";
 
-// Denna komponent hämtar id från URL:en och hittar rätt hus i listan.
-const HouseFromQuery = ({ allHouses, addBid }) => {
+// Tar emot deleteBid som en prop.
+const HouseFromQuery = ({ allHouses, addBid, deleteBid }) => {
     const { id } = useParams();
     const house = allHouses.find((h) => h.id === parseInt(id));
 
     if (!house) return <div>House not found.</div>;
 
-    // Skickar sedan vidare huset till House-komponenten för att den ska visas.
-    return <House house={house} addBid={addBid}></House>;
+    // Skickar med deleteBid som en prop till House-komponenten.
+    return <House house={house} addBid={addBid} deleteBid={deleteBid}></House>;
 };
 
 export default HouseFromQuery;

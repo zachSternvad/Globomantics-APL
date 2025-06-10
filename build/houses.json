@@ -6,7 +6,28 @@
     "description": "A super detached Victorian property on one of the greatest places.",
     "price": 900000,
     "photo": "277667",
-    "bids": []
+    "bids": [
+      {
+        "bidder": "Test",
+        "amount": 32
+      },
+      {
+        "bidder": "Test2",
+        "amount": 333
+      },
+      {
+        "bidder": "Test3",
+        "amount": 33
+      },
+      {
+        "bidder": "test",
+        "amount": 332
+      },
+      {
+        "bidder": "test",
+        "amount": 32
+      }
+    ]
   },
   {
     "id": 2,
@@ -15,7 +36,12 @@
     "description": "This house has been designed and build to an impeccable standard offering luxurious and elegant living. The accommodation is arranged over four floors comprising a large entrance hall, living room with tall sash windows, dining room, study and WC on the ground floor.",
     "price": 500000,
     "photo": "462358",
-    "bids": []
+    "bids": [
+      {
+        "bidder": "test",
+        "amount": 3
+      }
+    ]
   },
   {
     "id": 3,
@@ -24,7 +50,16 @@
     "description": "This impressive family home",
     "price": 800000,
     "photo": "164558",
-    "bids": []
+    "bids": [
+      {
+        "bidder": "test3",
+        "amount": 23
+      },
+      {
+        "bidder": "test4",
+        "amount": 31
+      }
+    ]
   },
   {
     "id": 4,
@@ -41,7 +76,12 @@
     "description": "This impressive family home",
     "price": 700000,
     "photo": "534182",
-    "bids": []
+    "bids": [
+      {
+        "bidder": "test",
+        "amount": 32
+      }
+    ]
   },
   {
     "id": 6,
@@ -50,6 +90,11 @@
     "description": "This fantastic family home is designed for a 8 persons or more and specialy for kids who like swimming cause there is a swimming pool.",
     "price": 76000,
     "photo": "455879",
-    "bids": []
+    "bids": [
+      {
+        "bidder": "test",
+        "amount": 32
+      }
+    ]
   }
 ]
