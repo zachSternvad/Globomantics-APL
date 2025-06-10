@@ -25,6 +25,7 @@ Detta APL-projekt är en webbapplikation för den fiktiva mäklarfirman Globoman
 * **Språk:** JavaScript, HTML, CSS
 * **Byggverktyg:** Create React App
 * **Pakethanterare:** npm
+* **Driftsättning:** Netlify (Frontend), Render (Backend)
 
 ---
 
