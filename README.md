@@ -4,7 +4,7 @@ Detta APL-projekt är en webbapplikation för den fiktiva mäklarfirman Globoman
 
 ## Live Demo
 
-**https://din-live-länk-här.com**
+**https://globomanticsapl.netlify.app/**
 
 ---
 
