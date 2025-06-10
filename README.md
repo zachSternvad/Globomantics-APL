@@ -4,16 +4,17 @@ Detta APL-projekt är en webbapplikation för den fiktiva mäklarfirman Globoman
 
 ## Live Demo
 
-**[Länk till en live-version av projektet](https://din-live-länk-här.com)** *(Tips: Ladda upp ditt projekt till en gratistjänst som Netlify eller Vercel och klistra in länken här. Det är mycket värdefullt för rekryterare!)*
+**https://din-live-länk-här.com**
 
 ---
 
 ## Funktioner
 
-* **Bläddra bland objekt:** Visar en lista över hus till salu med adress, land och pris.
-* **Detaljerad vy:** Genom att klicka på ett hus visas en detaljerad sida med mer information och bilder.
-* **Lägg till hus:** En funktion för att lägga till nya hus i listan (simulerat via "Add"-knapp).
+* ***Bläddra bland objekt:** Visar en lista över alla hus till salu hämtade från en backend.
+* **Detaljerad vy:** Klickbara objekt som leder till en detaljsida med mer information.
+* **Lägg till hus:** Ett formulär för att lägga till nya hus som sparas permanent.
 * **Budgivning:** Möjlighet för användare att lägga ett bud på ett specifikt hus via ett formulär.
+* **Ta bort objekt:** Möjlighet att permanent ta bort ett hus från listan.
 
 ---
 
